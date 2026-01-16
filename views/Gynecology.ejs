@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BBMH (Brijesh Bangar Memorial Hospital)</title>
+    <link rel="icon" href="\images\logo.jpg">
+    <link rel="stylesheet" href="ent.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="Appointment.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded">
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <div id="overlay" class="overlay"></div>
+    <button id="toggleBtn" class="toggle-arrow">
+        <span>Book Appointment</span><i></i>
+    </button>
+    <section id="appointmentSection">
+        <%- include('partials/appointmentForm') %>
+        <br><br>
+    </section>
+
+    <div class="container2">
+        <div>
+            <h1>BBMH Hospital – Best Gynecology Hospital in Bhilwara</h1>
+            <img src="\images\lovepik.jpg" alt="" class="img">
+            <p>
+                Searching for the best gynecology hospital in Bhilwara? Well, we are here! Our hospital’s gynecology and obstetrics department are staffed by experienced and qualified doctors dedicated to providing the best possible care for our patients. We offer a wide range of services, from routine check-ups to more complex procedures. We also have a team of counselors who can provide support and advice on various reproductive health issues.
+                The importance of gynecology and obstetrics cannot be understated. These disciplines play a vital role in ensuring the health and well-being of women of all ages, and we are proud to offer such high-quality care to our patients.
+            </p>
+        </div>
+
+        <div>
+            <h2>What is the difference between Gynecology and Obstetrics?</h2>
+            <ul class="ul">
+                <li>Gynecology addresses the female reproductive system, including chronic pain and sexually transmitted infections.</li>
+                <li>Obstetrics focuses on pregnancy and its related procedures and disorders, including deliveries.</li>
+                <li>OB-GYN specialists provide comprehensive care, including STI testing, pelvic exams, ultrasounds, and more.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container3">
+        <div class="wrapper" style="margin-top: 8vh;">
+            <img src="\images\young-woman-speaking-with-gynecologist.jpg" alt="">
+            <div class="intro">
+                <h2>Functions of OB-GYNs:</h2>
+                <ul>
+                    <li><strong>Comprehensive Care:</strong> Experienced gynecologists provide complete healthcare for women.</li>
+                    <li><strong>Routine Check-Ups:</strong> Regular screenings to monitor reproductive health.</li>
+                    <li><strong>Counseling Support:</strong> Advanced procedures and reproductive health management.</li>
+                    <li><strong>Pregnancy Care:</strong> Comprehensive management of pregnancy, including prenatal and postpartum support.</li>
+                    <li><strong>Menopause Management:</strong> Guidance and treatment options for women undergoing menopause.</li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <div class="wrapper1">
+            <img src="\images\istockphoto.jpg" alt="">
+            <div class="intro1">
+                <h2>Normal/Caesarean Delivery:</h2>
+                <p>Both normal and cesarean delivery options are provided to ensure the safe and easy delivery of a healthy child. Emergency procedures are available for high-risk cases to protect both mother and child.</p>
+            </div>
+        </div>
+        <hr>
+        <div class="wrapper2">
+            <img src="" alt="">
+            <div class="intro2">
+                <h2>Uterus Fibroid Treatment:</h2>
+                <p>Advanced fibroid removal treatments, such as fibroid embolization and laparoscopic removal, are offered to relieve pain and complications. Hysterectomy is recommended only in extreme cases.</p>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="video-container">
+        
+        <div style="padding: 2vh;">
+            <h2>Why Choose BBMH Hospital as the Best Gynecology Specialist in Bhilwara?</h2>
+            <p>BBMH Hospital is recognized for its exceptional care in gynecology, offering advanced treatments and personalized medical guidance. Here’s what sets us apart:</p>
+            <ul>
+                <li><strong>Experienced Gynecologists:</strong> Highly trained specialists dedicated to women’s health.</li>
+                <li><strong>State-of-the-Art Technology:</strong> Ensuring accurate diagnoses and effective treatments.</li>
+                <li><strong>Comprehensive Services:</strong> Covering routine check-ups to complex surgeries.</li>
+                <li><strong>Patient-Centered Care:</strong> Personalized treatment plans tailored to individual needs.</li>
+                <li><strong>Positive Surgical Outcomes:</strong> Rigorous safety standards for peace of mind.</li>
+            </ul>
+            <p>Choosing the right hospital for gynecological treatments is vital for health and well-being. At BBMH Hospital in Bhilwara, we strive for excellence in women’s healthcare, guaranteeing that each patient receives the utmost care and attention.</p>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("toggleBtn").addEventListener("click", function () {
+                let appointmentSection = document.getElementById("appointmentSection");
+                appointmentSection.style.display = (appointmentSection.style.display === "none" || appointmentSection.style.display === "") ? "block" : "none";
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("toggleBtn").addEventListener("click", function () {
+                window.scrollTo({
+                    top: 10,
+                    behavior: "smooth"
+                });
+            });
+        });
+    </script>
+
+    <script>
+        (() => {
+            'use strict';
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="index.js"></script>
+</body>
+</html>

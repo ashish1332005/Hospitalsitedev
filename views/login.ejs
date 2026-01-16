@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Login</title>
+    <link rel="icon" href="\images\logo.jpg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+   <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+    <div>
+        <%- include('flash.ejs') %>
+    </div>
+
+    <div class="login-container">
+        <!-- Flash Messages -->
+        
+        <!-- Login Form -->
+        <form id="loginForm" action="/login" method="POST" autocomplete="off">
+            <h2>Doctor Login</h2>
+            <div class="mb-3">
+                <input type="email" name="email" class="form-control" placeholder="Email" required autocomplete="new-password">
+            </div>
+            <div class="mb-3">
+                <input type="password" name="password" class="form-control" placeholder="Password" required autocomplete="new-password">
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+    </div>
+
+    <script>
+        (function() {
+            const form = document.getElementById("loginForm");
+            const emailInput = form.querySelector('input[name="email"]');
+            const passwordInput = form.querySelector('input[name="password"]');
+
+            // Delay clearing the values to bypass autofill
+            setTimeout(() => {
+                form.reset();
+                emailInput.value = '';
+                passwordInput.value = '';
+            }, 50);
+        })();
+    </script>
+</body>
+</html>

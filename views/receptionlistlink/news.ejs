@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BBMH (Brijesh Bangar Memorial Hospital)</title>
+  <link rel="icon" href="\images\logo.jpg">
+  <link rel="stylesheet" href="/index.css">
+  <link rel="stylesheet" href="/news.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* Inline CSS for styling */
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+    .news-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      justify-items: center;
+    }
+    .news-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+      width: 100%;
+      height: 250px;
+      cursor: pointer;
+    }
+    .news-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    .news-item:hover {
+      transform: scale(1.05);
+    }
+    .delete-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255, 0, 0, 0.7);
+      color: white;
+      border: none;
+      padding: 5px 8px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .lightbox-img {
+      max-width: 90%;
+      max-height: 80%;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+      animation: zoomIn 0.4s ease;
+    }
+    @keyframes zoomIn {
+      from {
+        transform: scale(0.7);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+    .close {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      font-size: 40px;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <%- include('../partials/navbar-receptionlist.ejs') %>
+
+  <!-- Lightbox Popup -->
+  <div class="lightbox" id="lightbox">
+    <span class="close" id="closeBtn">&times;</span>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="Expanded Image">
+  </div>
+
+  <!-- Upload Section -->
+  <div class="upload-section text-center my-4">
+    <input type="file" id="uploadInput" accept="image/*" hidden>
+    <button class="btn btn-success" id="uploadButton">
+      <i class="fas fa-upload"></i> Add More News/Media
+    </button>
+  </div>
+
+  <!-- News & Media Header -->
+  <div class="slider text-center mb-4">
+    <h2>News</h2>
+    <h2>&</h2>
+    <h2>Media</h2>
+  </div>
+
+  <!-- News Gallery -->
+  <main>
+    <section class="news-gallery" id="newsGallery"></section>
+  </main>
+
+  <!-- Footer -->
+  <%- include('../partials/footer') %>
+
+  <!-- JavaScript -->
+  <script>
+    // JavaScript for handling uploads, deletions, and lightbox functionality
+    const uploadButton = document.getElementById('uploadButton');
+    const uploadInput = document.getElementById('uploadInput');
+    const newsGallery = document.getElementById('newsGallery');
+
+    // Trigger file input click
+    uploadButton.addEventListener('click', () => {
+        uploadInput.click();
+    });
+
+    // Handle file selection
+    uploadInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const formData = new FormData();
+            formData.append('newsImage', file);
+
+            fetch('/upload-news', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                const newNewsItem = document.createElement('div');
+                newNewsItem.classList.add('news-item');
+                newNewsItem.setAttribute('data-id', data.imageId);
+                newNewsItem.innerHTML = `
+                    <img src="${data.imageUrl}" alt="Uploaded News">
+                    <button class="delete-btn">🗑 Delete</button>
+                `;
+                // Prepend the new image to the top of the gallery
+                newsGallery.prepend(newNewsItem);
+                attachDeleteEvent(newNewsItem);
+            })
+            .catch(error => {
+                alert('Failed to upload image. Please try again.');
+            });
+        }
+    });
+
+    // Load existing images
+    window.onload = () => {
+        fetch('/get-news-images')
+            .then(response => response.json())
+            .then(data => {
+                data.images.forEach(image => {
+                    const newNewsItem = document.createElement('div');
+                    newNewsItem.classList.add('news-item');
+                    newNewsItem.setAttribute('data-id', image.imageId);
+                    newNewsItem.innerHTML = `
+                        <img src="${image.imageUrl}" alt="Existing News">
+                        <button class="delete-btn">🗑 Delete</button>
+                    `;
+                    newsGallery.appendChild(newNewsItem);
+                    attachDeleteEvent(newNewsItem);
+                });
+            })
+            .catch(error => {
+                alert('Failed to load images. Please try again.');
+            });
+    };
+
+    // Delete function
+    function attachDeleteEvent(newsItem) {
+        const deleteBtn = newsItem.querySelector('.delete-btn');
+        deleteBtn.addEventListener('click', () => {
+            const imageId = newsItem.getAttribute('data-id');
+            if (confirm('Are you sure you want to delete this image?')) {
+                fetch(`/delete-news/${imageId}`, { method: 'DELETE' })
+                .then(response => response.json())
+                .then(() => {
+                    newsItem.remove();
+                    alert('Image deleted successfully.');
+                })
+                .catch(() => {
+                    alert('Failed to delete image. Please try again.');
+                });
+            }
+        });
+    }
+
+    // Expand image functionality
+    newsGallery.addEventListener('click', (e) => {
+        const clickedImage = e.target.closest('img');
+        if (clickedImage) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightboxImg');
+            lightboxImg.src = clickedImage.src;
+            lightbox.style.display = 'flex';
+        }
+    });
+
+    // Close button functionality
+    const closeBtn = document.getElementById('closeBtn');
+    closeBtn.addEventListener('click', () => {
+        const lightbox = document.getElementById('lightbox');
+        lightbox.style.display = 'none';
+    });
+
+    // Click outside image to close
+    const lightbox = document.getElementById('lightbox');
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+            lightbox.style.display = 'none';
+        }
+    });
+  </script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   <script src="/index.js"></script>
+</body>
+</html>

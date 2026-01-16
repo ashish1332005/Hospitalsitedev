@@ -1,0 +1,299 @@
+/* Base Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fc;
+    color: #343a40;
+    line-height: 1.6;
+  }
+  
+  /* Container */
+  .container.doctor-container {
+    max-width: 960px;
+    margin: 50px auto;
+    padding: 40px;
+    background: linear-gradient(135deg, #ffffff, #f0f4f8);
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .container.doctor-container:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Doctor Profile Section */
+  .doctor-profile {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .doctor-profile:hover {
+    transform: translateY(0); /* Removed hover effect */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Profile Header (Image and Info) */
+  .profile-header {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  
+  .profile-image {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 6px solid #4caf50;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .profile-image:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .doctor-info {
+    flex-grow: 1;
+    text-align: left;
+  }
+  
+  .doctor-info h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+    padding-bottom: 15px;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .doctor-info p {
+    font-size: 1.1rem;
+    color: #555;
+    margin: 10px 0;
+  }
+  
+  .doctor-info strong {
+    color: #4caf50;
+    font-weight: 700;
+  }
+  
+  .description {
+    font-size: 1rem;
+    color: #666;
+    font-style: italic;
+  }
+  
+  /* Hover Effect for Profile Section Removed */
+  
+  /* Availability Section */
+  .availability-box {
+    margin-top: 40px;
+    padding: 25px;
+    background: #e6f7ff;
+    border-left: 5px solid #007acc;
+    border-radius: 15px;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.05);
+  }
+  
+  .box-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .box-header h3 {
+    font-size: 1.6rem;
+    color: #333;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  #arrow {
+    font-size: 1.8rem;
+    color: #007acc;
+    transition: transform 0.3s ease;
+  }
+  
+  /* Calendar Section */
+  .calendar-container {
+    margin-top: 20px;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 20px;
+  }
+  
+  .calendar-date {
+    background: #fff;
+    border-left: 5px solid #007acc;
+    padding: 15px;
+    border-radius: 12px;
+    color: #333;
+    font-weight: 500;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+
+  /* Appointments Section */
+  .calendar-date {
+    background: #fff;
+    border-left: 5px solid #007acc;
+    padding: 15px;
+    border-radius: 12px;
+    color: #333;
+    font-weight: 500;
+    width: auto;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+ 
+  
+  /* Appointments Section */
+  
+
+.calendar-toggle {
+  display: inline-block;
+  background: linear-gradient(90deg, #0a5495 60%, #4fc3f7 100%);
+  color: #fff;
+  border: none;
+ border-radius: 12px;
+  padding: 0.6em 1.6em;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  cursor: pointer;
+  width: auto;
+  box-shadow: 0 2px 8px rgba(10, 84, 149, 0.08);
+  transition: background 0.3s, color 0.3s, transform 0.2s;
+  float: right;
+}
+
+@media (max-width: 600px) {
+  .calendar-toggle {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.7em 0;
+    border-radius: 1.2rem;
+  }
+}
+
+.calendar-toggle:hover {
+    background: linear-gradient(90deg, #4fc3f7 0%, #0a5495 100%);
+    color: #fff;
+    transform: translateY(-2px) scale(1.05);
+}
+
+
+
+
+/* Flatpickr Custom Styles */
+.flatpickr-calendar {
+    border-radius: 1rem !important;
+    box-shadow: 0 4px 24px rgba(10, 84, 149, 0.13) !important;
+    font-family: 'Roboto', Arial, sans-serif;
+    z-index: 9999;
+    border: none;
+    overflow: hidden;
+}
+.flatpickr-months {
+    background: linear-gradient(90deg, #0a5495 60%, #4fc3f7 100%);
+    color: #fff;
+}
+
+ 
+
+
+  .hidden {
+    display: none;
+  }
+  
+  .appointments-section {
+    margin-top: 50px;
+    padding: 25px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .appointments-section h3 {
+    margin-bottom: 25px;
+    font-size: 1.6rem;
+    color: #333;
+  }
+  
+  .appointments-list {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  .appointment-item {
+    background: #fff;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-left: 5px solid #007acc;
+    border-radius: 10px;
+    font-size: 1rem;
+    color: #444;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .appointment-item:hover {
+    background-color: #eef7ff;
+    transform: translateY(-3px);
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  /* Keyframe Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 768px) {
+    .doctor-profile {
+      padding: 25px;
+    }
+  
+    .profile-header {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .profile-image {
+      margin-bottom: 20px;
+    }
+  
+    .doctor-info h2 {
+      font-size: 2rem;
+    }
+  
+    .doctor-info p {
+      font-size: 1rem;
+    }
+  }

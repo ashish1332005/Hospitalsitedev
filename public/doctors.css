@@ -1,0 +1,82 @@
+/* Section headings */
+h2.fw-bold {
+  font-size: 1.8rem;
+  background: linear-gradient(90deg, #007a5e, #00c7a2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+/* General text styling */
+.lead {
+  color: #000;
+  
+}
+
+/* Card container row spacing */
+.row {
+  justify-content: center;
+}
+
+/* Card styling */
+.card {
+  border: none;
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #f0f9f8;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 122, 94, 0.2);
+}
+
+/* Doctor image */
+.card-img-top {
+  height: 40vh;
+  border-radius: 50%;
+  border-bottom: 5px solid rgb(190, 214, 211);
+  object-fit: contain; /* show full image */
+  padding: 1rem;
+  background-color: #e6f7f5;
+}
+
+/* Card body */
+.card-body {
+  padding: 1.25rem;
+  
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Doctor name */
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #007a5e; /* fresh green-blue */
+  margin-bottom: 0.5rem;
+}
+
+/* Specialization and degrees */
+.card-text {
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .card-img-top {
+    height: 30vh;
+ 
+   object-fit: contain;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+  }
+}

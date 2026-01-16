@@ -1,0 +1,239 @@
+<div class="container-appointment" style="width: 80%; margin-left: 10vw; margin-top: 3vw;">
+    <h1 style="color: #1a2b4f;">Book Appointment</h1><br>
+
+    
+    <form method="POST" action="/appointments" class="row g-3 needs-validation" id="validationCustom002" novalidate>
+        
+        <!-- Hidden input for userToken -->
+    <input type="hidden" id="userToken" name="userToken" value="">
+
+    <div class="col-md-6">
+            <label for="validationCustom002" class="form-label" for="disease">Department</label>
+            <select class="form-select" name="department" id="disease" required>
+                <option value="">Select Department</option> 
+                <option value="General Medicine">General Medicine</option>
+                <option value="Cardiologist">Cardiologist</option>
+                <option value="Skin Cosmetic">Skin & Cosmetic</option>
+                <option value="Neonatologist(Child)">Neonatologist(Child)</option>
+                <option value="Urology">Urology</option>
+                <option value="Neuro">Neuro</option>
+                <option value="Opthal">Opthal</option>
+                <option value="Gynecology">Gynecology</option>
+                <option value="Gastroenterology">Gastroenterology</option>
+                <option value="Radiology">Radiology</option>
+                <option value="Aanaesthesia">Aanaesthesia</option>
+                <option value="Orthopaedic">Orthopaedic</option>
+                <option value="Pathology">Pathology</option>
+                <option value="Plastic Surgery">Plastic Surgery</option>
+                <option value="Critical Care">Critical Care</option>
+            </select>
+            <div class="invalid-feedback">Please select Department.</div>      
+    </div>
+
+    <div class="col-md-6">
+    <label for="doctor" for="validationCustom002"  class="form-label">Select Doctor</label>
+    <select class="form-select" name="doctor" id="doctor"  onchange="fetchAvailability()" required>
+        <option value="">Select Doctor</option>
+    </select>
+    <div class="invalid-feedback">Please select Doctor.</div>
+    </div>
+    
+
+<div class="col-md-6">
+    <label for="availableDates" for="validationCustom002" class="form-label">Doctor Available Date</label>
+        <select  class="form-select" name="availableDates" id="availableDates" required>
+        <option value="">Select Date</option>
+    </select>
+</div>
+    
+<div class="col-md-6">
+    <lable for="availableTime" for="validationCustom002" class="form-label">Doctor Available Time</label>
+    <select  class="form-select" name="availableTime" id="availableTime" >
+        <option value="">Select Time</option>
+    </select>
+</div>
+
+
+<div class="col-md-3">
+<label for="customTime" for="validationCustom002" class="form-label">Appointment Time</label>
+<select class="form-select" id="customTime" name="customTime"  required>
+    <option  value="">Select Hour</option>
+    <option value="00:00">12 AM</option>
+    <option value="01:00">1 AM</option>
+    <option value="02:00">2 AM</option>
+    <option value="03:00">3 AM</option>
+    <option value="04:00">4 AM</option>
+    <option value="05:00">5 AM</option>
+    <option value="06:00">6 AM</option>
+    <option value="07:00">7 AM</option>
+    <option value="08:00">8 AM</option>
+    <option value="09:00">9 AM</option>
+    <option value="10:00">10 AM</option>
+    <option value="11:00">11 AM</option>
+    <option value="12:00">12 PM</option>
+    <option value="13:00">1 PM</option>
+    <option value="14:00">2 PM</option>
+    <option value="15:00">3 PM</option>
+    <option value="16:00">4 PM</option>
+    <option value="17:00">5 PM</option>
+    <option value="18:00">6 PM</option>
+    <option value="19:00">7 PM</option>
+    <option value="20:00">8 PM</option>
+    <option value="21:00">9 PM</option>
+    <option value="22:00">10 PM</option>
+    <option value="23:00">11 PM</option>
+</select>
+<div class="invalid-feedback">Please select a valid time.</div>
+</div>
+
+
+
+    <div class="col-md-6">
+        <label for="validationCustom001" class="form-label">Gender</label>
+        <select class="form-select col-md-6" name="gender" id="validationCustom001" aria-label="Default select example" required>
+            <option value="">Open this select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">female</option>
+            <option value="transgender">transgender</option>
+        </select>
+    </div>    
+
+
+    <!-- Disease Field (Required in Schema) -->
+    <div class="col-md-6">
+        <label for="disease" class="form-label">Disease</label>
+        <input type="text" class="form-control" id="disease" name="disease" >
+        <div class="invalid-feedback">Please provide the disease information.</div>
+    </div>
+
+        <div class="col-md-4">
+            <label for="validationCustom01" class="form-label">Patient Name</label>
+            <input type="text" class="form-control" id="validationCustom01" name="patientName" required>
+            <div class="valid-feedback">Looks good!</div>
+        </div>
+
+        <div class="col-md-4">
+            <label for="validationCustomUsername" class="form-label">Phone No.</label>
+            <div class="input-group has-validation">
+                <input type="text" class="form-control" id="validationCustomUsername" name="phone" maxlength="10" pattern="\d{10}" required>
+                <div class="invalid-feedback">Please enter a valid 10-digit phone number.</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <label for="validationCustomUsername" class="form-label">Enter Age</label>
+            <div class="input-group has-validation">
+                <input type="text" class="form-control" id="validationCustomUsername" name="age" required>
+                <div class="invalid-feedback">Please enter a valid age.</div>
+            </div>
+        </div>
+
+      
+
+     
+        <div class="col-12">
+            <button class="btn btn-primary" type="submit">Submit form</button>
+        </div>
+    </form>
+    <form action="/appointments">
+        <button class="btn btn-success" type="submit">Your Appointment</button>
+       </form>
+</div>
+
+<script>
+    document.getElementById("disease").addEventListener("change", async function() {
+        const department = this.value;
+        let doctorSelect = document.getElementById("doctor");
+    
+        try {
+            const response = await fetch(`/doctors?department=${department}`);
+            doctorSelect.innerHTML = "<option selected disabled>Select a Doctor</option>"; // Reset before adding new options
+    
+            if (!response.ok) {
+                throw new Error("Failed to fetch doctors");
+            }
+    
+            const doctors = await response.json();
+    
+            if (doctors.length === 0) {
+                console.log(" No doctors available for this department!");
+                doctorSelect.innerHTML = "<option selected disabled>No doctors available</option>"; // Show "No doctors available"
+                return;
+            }
+    
+            doctors.forEach(doctor => {
+                let option = document.createElement("option");
+                option.value = doctor._id;
+                option.textContent = doctor.name;
+                doctorSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error("Error fetching doctors:", error);
+            doctorSelect.innerHTML = "<option selected disabled>No doctors available</option>"; 
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const userToken = document.cookie
+            .split("; ")
+            .find(row => row.startsWith("userToken="))
+            ?.split("=")[1];
+
+        if (userToken) {
+            document.getElementById("userToken").value = userToken;
+        } 
+    });
+
+document.getElementById("doctor").addEventListener("change", async function() {
+    const doctorId = this.value;
+
+    try {
+        const response = await fetch(`/doctor-schedule/${doctorId}`);
+        if (!response.ok) throw new Error("Failed to fetch doctor schedule");
+
+        const schedule = await response.json();
+
+        let dateSelect = document.getElementById("availableDates");
+        let timeSelect = document.getElementById("availableTime");
+
+        dateSelect.innerHTML = "<option selected disabled>Select a Date</option>"; 
+        timeSelect.innerHTML = "<option selected disabled>Select a Time</option>"; 
+
+        //  Populate Available Dates (Ensure Correct Date Format)
+        if (schedule.availableDates && schedule.availableDates.length > 0) {
+            schedule.availableDates.forEach(date => {
+                let formattedDate = new Date(date).toISOString().split("T")[0]; //  Convert date
+                //console.log(" Adding Date:", formattedDate); // Debugging
+                let option = document.createElement("option");
+                option.value = formattedDate;
+                option.textContent = formattedDate;
+                dateSelect.appendChild(option);
+            });
+        } else {
+            console.log(" No available dates found!");
+            let option = document.createElement("option");
+            option.disabled = true;
+            option.textContent = "No available dates";
+            dateSelect.appendChild(option);
+        }
+
+        //  Populate Available Time Slots
+        if (schedule.availableTime && schedule.availableTime.length > 0) {
+            schedule.availableTime.forEach(timeSlot => {
+                let option = document.createElement("option");
+                option.value = timeSlot;
+                option.textContent = timeSlot;
+                timeSelect.appendChild(option);
+            });
+        } else {
+            let option = document.createElement("option");
+            option.disabled = true;
+            option.textContent = "No available time slots";
+            timeSelect.appendChild(option);
+        }
+
+    } catch (error) {
+        console.error(" Error fetching doctor schedule:", error);
+    }
+});
+</script>

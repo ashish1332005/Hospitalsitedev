@@ -1,0 +1,71 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    background-color: #f4f4f4; 
+}
+
+.card {
+    width: 18rem;
+    height: 15rem;
+    background-color: rgba(163, 163, 163, 0.582);
+    border-radius: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative; 
+    
+}
+.card h2 {
+    margin-top: 2vh;
+}
+
+.card:hover{
+    box-shadow: 2px 2px 25px black;
+}
+
+.star-rating {
+    direction: ltr; 
+    display: inline-block;
+}
+
+.star {
+    font-size: 50px;
+    color: lightgray;
+    cursor: pointer;
+}
+
+.star:hover,
+.star:hover ~ .star {
+    color: gold; 
+}
+
+.star.selected {
+    color: gold; 
+}
+
+
+.close-button {
+    position: absolute;
+    top: 20px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+.btn{
+    margin-bottom: 2vh;
+}
+
+@media (max-width:600px) {
+    .btn {
+        margin-left: 4vw;
+        margin-right: 2vw;
+    }
+}

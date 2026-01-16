@@ -1,0 +1,186 @@
+/* Custom Styles for Enhanced Bootstrap Design */
+body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+    color: #333;
+}
+
+.container-fluid {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.card {
+    border: none;
+    border-radius: 1rem;
+    background: #ffffff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    border-radius: 1rem 1rem 0 0;
+    background: linear-gradient(90deg, #007bff, #0056b3);
+}
+
+.form-control, .form-select {
+    border: 1px solid #ced4da;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+    outline: none;
+}
+
+.input-group .form-select:first-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.input-group .form-select:last-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.btn {
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.btn-outline-primary {
+    color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.btn-success {
+    background-color: #28a745;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
+
+.alert-info {
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    background-color: #cce5ff;
+    border-color: #b8daff;
+}
+
+.display-4 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+}
+
+.text-muted {
+    font-size: 1.25rem;
+    opacity: 0.9;
+}
+
+#output.text-danger {
+    color: #dc3545 !important;
+    font-weight: 500;
+}
+
+/* Responsive Design at 768px */
+@media (max-width: 768px) {
+    .container-fluid {
+        padding: 1.5rem;
+    }
+
+    .alert {
+        font-size: 0.95rem;
+        padding: 0.75rem;
+    }
+
+    .display-4 {
+        font-size: 2rem;
+    }
+
+    .text-muted {
+        font-size: 1.1rem;
+    }
+
+    .card {
+        border-radius: 1rem;
+    }
+
+    .card-header {
+        font-size: 1.3rem;
+        padding: 1rem;
+    }
+
+    .form-control, .form-select, .input-group-lg .form-select {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .row {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .col-md-6 {
+        width: 100%;
+    }
+
+    .btn-lg {
+        font-size: 1.1rem;
+        padding: 0.5rem 1.5rem;
+    }
+
+    #output {
+        font-size: 1rem;
+    }
+
+    .input-group .form-select {
+        font-size: 1rem;
+    }
+}
+
+/* Additional Custom Styles */
+.selected-date a {
+    background-color: #007bff !important;
+    color: white !important;
+    border-radius: 50%;
+}

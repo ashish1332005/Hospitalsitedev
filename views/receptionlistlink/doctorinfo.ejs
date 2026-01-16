@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BBMH (Brijesh Bangar Memorial Hospital)</title>
+    <link rel="icon" href="https://m.media-amazon.com/images/I/61ae-mRACmL.AC_UF1000,1000_QL80.jpg">
+    <link rel="Stylesheet" href="/index.css">
+    <link rel="stylesheet" href="/doctorinfo.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet" />
+    <!-- Include Flatpickr CSS and JS in your EJS layout or head -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <title>Doctor Information</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <%- include('../partials/navbar-receptionlist', { user: user }) %>
+
+
+        <div class="container doctor-container">
+            <!-- Doctor Profile Section -->
+            <div class="doctor-profile">
+                <div class="profile-header">
+                    <img src="<%= doctor.imageUrl %>" alt="Doctor's Image" class="profile-image">
+                    <div class="doctor-info">
+                        <h2>Dr. <%= doctor.name %>
+                        </h2>
+                        <p class="specialization"><strong>Specialization: </strong>
+                            <%= doctor.specialization %>
+                        </p>
+                        <p class="degrees"><strong>Education: </strong>
+                            <%= doctor.degrees %>
+                        </p>
+                        <p class="department"><strong>Department: </strong>
+                            <%= doctor.department %>
+                        </p>
+                        <p class="description"><strong>About: </strong>
+                            <%= doctor.description %>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <!-- Availability Section with Button to Show Calendar -->
+            <div class="availability-box">
+                <div class="box-header">
+                    <h3>Doctor Availability</h3>
+
+                </div>
+
+                <div id="calendarContainer" class="calendar-container">
+                    <!-- toggle button -->
+
+
+                    <!-- calendar appears here (initially hidden) -->
+                    <div id="calendarContainer" class="calendar-container hidden">
+                        <input id="availabilityCalendar" type="text" />
+                    </div>
+                    <button id="calendarButton" class="calendar-toggle">
+                        <span class="calendar-btn-text">Show Calendar</span>
+                    </button>
+                    <div class="calendar-date">
+
+                        <strong>Available Time: </strong>
+                        <%= doctor.availableTime && doctor.availableTime[0] ? doctor.availableTime[0]
+                            : 'No time available' %>
+                    </div>
+                    <!-- your original list of slots -->
+
+
+                </div>
+
+
+          
+
+
+        </div>
+
+
+        <% if (user && user.type==='receptionist' ) { %>
+            <div class="appointments-section">
+                <h3>Appointments for Dr. <%= doctor.name %>
+                </h3>
+                <% if (appointments.length> 0) { %>
+                    <ul class="appointments-list">
+                        <% appointments.forEach(appt=> { %>
+                            <li class="appointment-item">
+                                <strong>Patient:</strong>
+                                <%= appt.patientName %> |
+                                    <strong>Time:</strong>
+                                    <%= appt.availableTime || appt.customTime %> |
+                                        <strong>Date:</strong>
+                                        <%= appt.availableDates[0] ? new Date(appt.availableDates[0]).toDateString()
+                                            : 'N/A' %>
+                            </li>
+                            <% }) %>
+                    </ul>
+                    <% } else { %>
+                        <p>No appointments available.</p>
+                        <% } %>
+            </div>
+            <% } %>
+                <br>
+                <div class="card shadow-lg border-0 mb-5">
+                    <div class="card-header bg-gradient bg-primary text-white py-3">
+                        <h4 class="mb-0 fw-bold">Update Dr. <%= doctor.name %> Availability</h4>
+                    </div>
+
+                    <div class="card-body p-4">
+                        <form action="/updateAvailability" method="POST" onsubmit="return validateForm()">
+                            <!-- Available Dates -->
+                            <div class="mb-4">
+                                <label for="availableDates" class="form-label fw-semibold text-dark">Available
+                                    Dates:</label>
+                                <div class="input-group">
+                                    <input type="text" id="availableDates" name="availableDates"
+                                        class="form-control form-control-lg" placeholder="Select Available Dates"
+                                        required aria-label="Available Dates">
+                                    <button type="button" id="selectAllDates"
+                                        class="btn btn-outline-primary btn-sm ms-2">Select All (Next 364 Days)</button>
+                                </div>
+                            </div>
+
+                            <!-- Available Time -->
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <label for="startHour" class="form-label fw-semibold text-dark">Start Time:</label>
+                                    <div class="input-group input-group-lg">
+                                        <select id="startHour" name="startHour" class="form-select rounded-start">
+                                            <option value="12">12</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                        </select>
+                                        <select id="startMinute" name="startMinute" class="form-select">
+                                            <option value="00">00</option>
+                                            <option value="15">15</option>
+                                            <option value="30">30</option>
+                                            <option value="45">45</option>
+                                        </select>
+                                        <select id="startAMPM" name="startAMPM" class="form-select rounded-end">
+                                            <option value="AM">AM</option>
+                                            <option value="PM">PM</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="endHour" class="form-label fw-semibold text-dark">End Time:</label>
+                                    <div class="input-group input-group-lg">
+                                        <select id="endHour" name="endHour" class="form-select rounded-start">
+                                            <option value="12">12</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                        </select>
+                                        <select id="endMinute" name="endMinute" class="form-select">
+                                            <option value="00">00</option>
+                                            <option value="15">15</option>
+                                            <option value="30">30</option>
+                                            <option value="45">45</option>
+                                        </select>
+                                        <select id="endAMPM" name="endAMPM" class="form-select rounded-end">
+                                            <option value="AM">AM</option>
+                                            <option value="PM">PM</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <% if (user?.type==='receptionist' ) { %>
+
+
+                                <!-- Hidden Input for Formatted Time -->
+                                <input type="hidden" id="formattedTime" name="availableTime"
+                                    value="<%= availableTime %>">
+                                <input type="hidden" name="doctorId" value="<%= doctor._id %>">
+                                <!-- Submit Button -->
+                                <div class="mt-5">
+                                    <button type="submit" class="btn btn-success btn-lg w-100" id="submitBtn">Update
+                                        Availability</button>
+                                </div>
+                                <% } %>
+                        </form>
+                        <p id="output" class="mt-3 text-center text-secondary fw-medium"></p>
+                    </div>
+                </div>
+
+                </div>
+
+                </div>
+
+
+                </div>
+
+                <!-- Load Flatpickr and Custom Scripts -->
+                <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
+
+
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+                    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+                    crossorigin="anonymous" referrerpolicy="no-referrer" />
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+                    integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg=="
+                    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+                    integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg=="
+                    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+                <script src="/index.js"></script>
+
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+                <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+
+                <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+
+                <script>
+                    let selectedDates = [];
+
+                    $(document).ready(function () {
+
+
+                        // Load pre-saved dates into datepicker
+                        const existingDates = $("#availableDates").val();
+                        if (existingDates) {
+                            selectedDates = existingDates.split(", ").filter(Boolean);
+                        }
+
+                        // Pre-fill time dropdowns
+                        const availableTime = $("#formattedTime").val();
+                        if (availableTime) {
+                            const [startPart, endPart] = availableTime.split(" - ");
+                            const [startHour, startMinuteAMPM] = startPart.split(":");
+                            const [startMinute, startAMPM] = startMinuteAMPM.trim().split(" ");
+                            const [endHour, endMinuteAMPM] = endPart.split(":");
+                            const [endMinute, endAMPM] = endMinuteAMPM.trim().split(" ");
+
+                            $("#startHour").val(startHour);
+                            $("#startMinute").val(startMinute);
+                            $("#startAMPM").val(startAMPM);
+                            $("#endHour").val(endHour);
+                            $("#endMinute").val(endMinute);
+                            $("#endAMPM").val(endAMPM);
+                        }
+
+                        // Datepicker init
+                        $("#availableDates").datepicker({
+                            dateFormat: "yy-mm-dd",
+                            beforeShowDay: function (date) {
+                                const dateString = $.datepicker.formatDate("yy-mm-dd", date);
+                                return [true, selectedDates.includes(dateString) ? "selected-date" : ""];
+                            },
+                            onSelect: function (dateText) {
+                                const index = selectedDates.indexOf(dateText);
+                                if (index > -1) {
+                                    selectedDates.splice(index, 1);
+                                } else {
+                                    selectedDates.push(dateText);
+                                }
+                                selectedDates.sort();
+                                $(this).val(selectedDates.join(", "));
+                                $(this).datepicker("refresh");
+                            }
+                        });
+
+                        $("#availableDates").datepicker("refresh");
+
+                        // Select All Dates
+                        $("#selectAllDates").click(function () {
+                            let today = new Date();
+                            selectedDates = [];
+                            for (let i = 0; i < 364; i++) {
+                                let nextDate = new Date();
+                                nextDate.setDate(today.getDate() + i);
+                                selectedDates.push($.datepicker.formatDate("yy-mm-dd", nextDate));
+                            }
+                            $("#availableDates").val(selectedDates.join(", "));
+                            if (!existingDates) {
+                                $("#availableDates").datepicker("show");
+                            }
+
+                        });
+
+                        $("head").append(`
+          <style>
+              .selected-date a {
+                  background-color: #007bff !important;
+                  color: white !important;
+                  border-radius: 50%;
+              }
+          </style>
+      `);
+
+                        $("#submitBtn").click(function (e) {
+                            if (!validateForm()) {
+                                e.preventDefault();
+                                $("#output").text("Please ensure all fields are valid.").addClass("text-danger");
+                            }
+                        });
+                    });
+
+                    function validateForm() {
+                        const startHour = parseInt(document.getElementById("startHour").value);
+                        const endHour = parseInt(document.getElementById("endHour").value);
+                        const startAMPM = document.getElementById("startAMPM").value;
+                        const endAMPM = document.getElementById("endAMPM").value;
+
+                        if (document.getElementById("availableDates").value.trim() === "") {
+                            return false;
+                        }
+
+                        if (startAMPM === endAMPM && startHour > endHour) {
+                            return false;
+                        }
+
+                        getTimePeriod();
+                        return true;
+                    }
+
+                    function getTimePeriod() {
+                        let startHour = document.getElementById("startHour").value;
+                        let startMinute = document.getElementById("startMinute").value;
+                        let startAMPM = document.getElementById("startAMPM").value;
+                        let endHour = document.getElementById("endHour").value;
+                        let endMinute = document.getElementById("endMinute").value;
+                        let endAMPM = document.getElementById("endAMPM").value;
+
+                        let timePeriod = `${startHour}:${startMinute} ${startAMPM} - ${endHour}:${endMinute} ${endAMPM}`;
+                        document.getElementById("formattedTime").value = timePeriod;
+                        document.getElementById("output").textContent = ` Selected Time: ${timePeriod}.replace("text-danger", "text-secondary")`;
+                    }
+                </script>
+            <script>
+    const availableDates = <%- JSON.stringify(doctor.availableDates || []) %>;
+  
+    // Initialize flatpickr, but keep it hidden initially
+    const calendarInput = document.getElementById("availabilityCalendar");
+    const calendarButton = document.getElementById("calendarButton");
+  
+    const calendar = flatpickr(calendarInput, {
+      enable: availableDates.map(date => new Date(date)),
+      dateFormat: "Y-m-d",
+      defaultDate: availableDates[0] || null,
+      inline: false,  // Inline set to false to hide the calendar initially
+      disableMobile: true,
+      monthSelectorType: "static"
+    });
+  
+    // Show or hide the calendar when the button is clicked
+    calendarButton.addEventListener("click", function() {
+      const isOpen = calendar.isOpen; // Check if the calendar is currently open
+      if (isOpen) {
+        calendar.close();  // Close calendar if it's open
+        calendarButton.querySelector(".calendar-btn-text").textContent = "Show Calendar"; // Change button text
+      } else {
+        calendar.open();  // Open calendar if it's closed
+        calendarButton.querySelector(".calendar-btn-text") // Change button text
+      }
+    });
+   
+
+
+  </script>
+                <%- include('../partials/footer') %>
+
+</body>
+
+</html>

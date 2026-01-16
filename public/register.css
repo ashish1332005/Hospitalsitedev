@@ -1,0 +1,116 @@
+/* Body styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #e0f7fa, #ffffff);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  /* Form container */
+  #Signupform {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  /* Heading */
+  #Signupform h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #00796b;
+  }
+  
+  /* Form groups */
+  .mb-3 {
+    margin-bottom: 20px;
+  }
+  
+  /* Input fields */
+  .form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #b2dfdb;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+  }
+  
+  .form-control:focus {
+    border-color: #00796b;
+    outline: none;
+  }
+  
+  /* Labels */
+  label {
+    display: block;
+    margin-bottom: 8px;
+    color: #004d40;
+    font-weight: 600;
+  }
+  
+  /* Select dropdown */
+  .form-select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #b2dfdb;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #ffffff;
+    transition: border-color 0.3s;
+  }
+  
+  .form-select:focus {
+    border-color: #00796b;
+    outline: none;
+  }
+  
+  /* Textarea */
+  textarea.form-control {
+    resize: vertical;
+  }
+  
+  /* Submit button */
+  .btn-primary {
+    background-color: #00796b;
+    color: #ffffff;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-primary:hover {
+    background-color: #004d40;
+  }
+  
+  /* Login link */
+  .text-center a {
+    color: #00796b;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .text-center a:hover {
+    color: #004d40;
+  }
+  
+  /* Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }

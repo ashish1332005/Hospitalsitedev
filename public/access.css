@@ -1,0 +1,79 @@
+
+  /* Access wrapper */
+  .access-wrapper {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    margin: 60px auto;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  /* Access title */
+  .access-title {
+    font-size: 24px;
+    color: #00796b;
+    margin-bottom: 20px;
+  }
+  
+  /* Error message */
+  .error-message {
+    color: #d32f2f;
+    margin-bottom: 15px;
+    font-weight: 500;
+  }
+  
+  /* Access form */
+  .access-form input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #b2dfdb;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s;
+  }
+  
+  .access-form input[type="password"]:focus {
+    border-color: #00796b;
+    outline: none;
+  }
+  
+  .access-form button {
+    background-color: #00796b;
+    color: #ffffff;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+  }
+  
+  .access-form button:hover {
+    background-color: #004d40;
+  }
+  
+  /* Access footer */
+  .access-footer {
+    margin-top: 20px;
+    color: #757575;
+    font-size: 14px;
+  }
+  
+  /* Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

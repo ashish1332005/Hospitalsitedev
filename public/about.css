@@ -1,0 +1,147 @@
+/* Global Reset and Fonts */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fb;
+    color: #333;
+    line-height: 1.6;
+}
+
+h2 {
+    color: #1a2b4f;
+    font-size: 3.5vh;
+    margin-bottom: 1.5vh;
+}
+
+/* Section Titles */
+.Special .small h2 {
+    text-align: center;
+    font-size: 4vh;
+    margin: 6vh 0 3vh;
+    color: #2c3e50;
+    position: relative;
+}
+.Special .small h2::after {
+    content: "";
+    width: 60px;
+    height: 4px;
+    background-color: #3498db;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -10px;
+    border-radius: 2px;
+}
+
+/* About Info */
+.info {
+    display: flex;
+    align-items: flex-start;
+    gap: 4vw;
+    padding: 4vh 8vw;
+    background-color: white;
+    border-radius: 1.5vh;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+    margin: 4vh auto;
+    max-width: 1200px;
+    flex-wrap: wrap;
+}
+
+.info .img img {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 1vh;
+}
+
+.information {
+    flex: 1;
+}
+
+.information p {
+    font-size: 2.2vh;
+    opacity: 0.85;
+    color: black;
+    font-weight: 500;
+}
+
+/* Commitment Section */
+.cont, .conta {
+    display: flex;
+    gap: 4vw;
+    padding: 4vh 8vw;
+    background-color: #ffffff;
+    border-radius: 1.5vh;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    margin: 4vh auto;
+    max-width: 1200px;
+    flex-wrap: wrap;
+}
+
+.image-container img,
+.image-conta img {
+    width: 100%;
+    max-width: 350px;
+    border-radius: 1vh;
+}
+
+.text-container, .te-container {
+    flex: 1;
+}
+
+.text-container p, .te-container p {
+    font-size: 2.2vh;
+    margin-bottom: 2vh;
+    opacity: 0.9;
+}
+
+.te-container ul {
+    list-style: square inside;
+    font-size: 2.2vh;
+    padding-left: 0;
+    color: #555;
+}
+
+/* Mission & Vision Highlight */
+.te-container h3 {
+    margin-top: 2vh;
+    font-size: 2.8vh;
+    color: #34495e;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .info, .cont, .conta {
+        flex-direction: column;
+        align-items: center;
+        padding: 4vh 4vw;
+    }
+
+    .info .img img,
+    .image-container img,
+    .image-conta img {
+        max-width: 100%;
+        margin-bottom: 2vh;
+    }
+
+    .text-container, .te-container, .information {
+        text-align: center;
+    }
+
+    h2 {
+        font-size: 3vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .Special .small h2 {
+        font-size: 3.2vh;
+    }
+
+    .information p,
+    .text-container p,
+    .te-container p,
+    .te-container ul {
+        font-size: 2vh;
+    }
+}

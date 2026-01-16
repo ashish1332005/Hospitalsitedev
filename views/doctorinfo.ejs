@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BBMH (Brijesh Bangar Memorial Hospital)</title>
+    <link rel="icon" href="\images\logo.jpg">
+    <link rel="Stylesheet" href="/index.css">
+    <link rel="stylesheet" href="/doctorinfo.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+    <!-- Include Flatpickr CSS and JS in your EJS layout or head -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <title>Doctor Information</title>
+
+</head>
+<body>
+    <%- include('partials/navbar.ejs') %>
+
+    <div class="container doctor-container">
+        <!-- Doctor Profile Section -->
+        <div class="doctor-profile">
+            <div class="profile-header">
+              <img src="<%= doctor.imageUrl %>" alt="Doctor's Image" class="profile-image">
+              <div class="doctor-info">
+                <h2>Dr. <%= doctor.name %></h2>
+                <p class="specialization"><strong>Specialization: </strong><%= doctor.specialization %></p>
+                <p class="degrees"><strong>Education: </strong><%= doctor.degrees %></p>
+                <p class="department"><strong>Department: </strong><%= doctor.department %></p>
+                <p class="description"><strong>About: </strong><%= doctor.description %></p>
+              </div>
+            </div>
+          </div>
+          
+          
+      
+          <!-- Availability Section with Button to Show Calendar -->
+              <div class="availability-box">
+            <div class="box-header" >
+              <h3>Doctor Availability</h3>
+
+            </div>
+       
+            <div id="calendarContainer" class="calendar-container">
+            <!-- toggle button -->
+
+
+<!-- calendar appears here (initially hidden) -->
+<div id="calendarContainer" class="calendar-container hidden">
+  <input id="availabilityCalendar" type="text"/>
+</div>
+   <button id="calendarButton" class="calendar-toggle">
+  <span class="calendar-btn-text">Show Calendar</span>
+</button>
+ <div class="calendar-date">
+
+      <strong>Available Time: </strong>
+      <%= doctor.availableTime && doctor.availableTime[0] ? doctor.availableTime[0] : 'No time available' %>
+    </div>
+<!-- your original list of slots -->
+
+
+            </div>
+            
+        
+        </div>
+      
+
+      </div>
+      
+      <!-- Load Flatpickr and Custom Scripts -->
+      <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+     
+      
+      
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/index.js"></script>
+    
+<%- include('partials/footer') %>
+<script>
+    const availableDates = <%- JSON.stringify(doctor.availableDates || []) %>;
+  
+    // Initialize flatpickr, but keep it hidden initially
+    const calendarInput = document.getElementById("availabilityCalendar");
+    const calendarButton = document.getElementById("calendarButton");
+  
+    const calendar = flatpickr(calendarInput, {
+      enable: availableDates.map(date => new Date(date)),
+      dateFormat: "Y-m-d",
+      defaultDate: availableDates[0] || null,
+      inline: false,  // Inline set to false to hide the calendar initially
+      disableMobile: true,
+      monthSelectorType: "static"
+    });
+  
+    // Show or hide the calendar when the button is clicked
+    calendarButton.addEventListener("click", function() {
+      const isOpen = calendar.isOpen; // Check if the calendar is currently open
+      if (isOpen) {
+        calendar.close();  // Close calendar if it's open
+        calendarButton.querySelector(".calendar-btn-text").textContent = "Show Calendar"; // Change button text
+      } else {
+        calendar.open();  // Open calendar if it's closed
+        calendarButton.querySelector(".calendar-btn-text") // Change button text
+      }
+    });
+   
+
+
+  </script>
+</body>
+</html>
