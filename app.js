@@ -63,7 +63,22 @@ async function connectToDatabase() {
     }
 }
 connectToDatabase();
-
+// Configure session middleware
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'keyboard cat',
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+        // We use the Local MongoDB URI here to prevent the "ENOTFOUND" crash
+        mongoUrl: process.env.MONGO_URI, 
+        ttl: 14 * 24 * 60 * 60 // 14 days
+    }),
+    cookie: {
+        secure: process.env.NODE_KEY === 'production',
+        httpOnly: true,
+        maxAge: 14 * 24 * 60 * 60 * 1000
+    }
+}));
 // Assign a unique token to each user for session-based identification
 app.use((req, res, next) => {
     if (!req.cookies.userToken) {
@@ -80,22 +95,7 @@ app.use((req, res, next) => {
     next();
 });
 
-// Configure session store with MongoDB Atlas
-// app.use(session({
-//     secret: process.env.SESSION_SECRET || 'defaultSecret', // Use a secure secret from environment variables
-//     resave: false,
-//     saveUninitialized: true,
-//     store: MongoStore.create({
-//       mongoUrl: process.env.ATLAS_URL, // MongoDB Atlas connection string
-//       ttl: 14 * 24 * 60 * 60, // Session expiration time in seconds (14 days)
-//       autoRemove: 'native', // Automatically remove expired sessions
-//     }),
-//     cookie: {
-//       secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-//       httpOnly: true, // Prevent client-side JavaScript from accessing the cookie
-//       maxAge: 14 * 24 * 60 * 60 * 1000, // Cookie expiration time in milliseconds (14 days)
-//     },
-//   }));
+
 
 // Middleware to clear appointments if the userToken cookie is missing
 app.use(async (req, res, next) => {
