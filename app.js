@@ -12,7 +12,7 @@ const session = require('express-session');
 
 // Import models
 
-const Appointment = require("./models/Appointment");
+const Appointment = require("./models/appointment");
 const News = require("./models/news");
 const Doctor = require("./models/Doctor");
 
