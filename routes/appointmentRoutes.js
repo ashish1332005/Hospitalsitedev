@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const methodOverride = require("method-override");
 router.use(methodOverride("_method"));
-const Appointment = require("../models/Appointment");
+const Appointment = require("../models/appointment");
 
 // Appointment form route
 router.get("/appointment", (req, res) => {
