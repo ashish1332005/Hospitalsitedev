@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Doctor = require("../models/Doctor");
-const Appointment = require("../models/Appointment");
+const Appointment = require("../models/appointment");
 const multer = require('multer');
 const fs = require('fs');
 const { storage } = require('../cloudConfig');
