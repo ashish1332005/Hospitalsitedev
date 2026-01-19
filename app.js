@@ -53,16 +53,23 @@ app.use(newsRoutes);
 flashAndSession(app); // Use flash and session middleware
 
 // MongoDB connection
-async function connectToDatabase() {
+async function startServer() {
     try {
         await mongoose.connect(process.env.MONGO_URI);
         console.log("MongoDB connected successfully");
+
+        const port = process.env.PORT || 3000;
+        app.listen(port, () => {
+            console.log(`App running on port ${port}`);
+        });
+
     } catch (err) {
         console.error("MongoDB connection error:", err);
         process.exit(1);
     }
 }
-connectToDatabase();
+
+startServer();
 
 // Assign a unique token to each user for session-based identification
 app.use((req, res, next) => {
@@ -205,8 +212,4 @@ app.use((err, req, res, next) => {
     res.status(500).send("Something went wrong! Please try again later.");
 });
 
-// Start the server
-const port = process.env.PORT;
-app.listen(port, () => {
-    console.log(`App working at http://localhost:${port}`);
-});
+
