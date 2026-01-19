@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Appointment = require("../models/Appointment");
+const Appointment = require("../models/appointment");
 const Doctor = require("../models/Doctor");
 const { isAuthenticated, isReceptionist,isDoctor } = require("../middleware/middleware");
 
