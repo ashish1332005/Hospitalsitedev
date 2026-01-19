@@ -1,80 +1,77 @@
-// =====================
-// Core Modules
-// =====================
+// Import required modules
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
 const cors = require("cors");
-const cookieParser = require("cookie-parser");
-const session = require("express-session");
-const MongoStore = require("connect-mongo");
-const { v4: uuidv4 } = require("uuid");
+const MongoStore = require('connect-mongo');
 
-// =====================
-// Load Environment Variables
-// =====================
-if (process.env.NODE_ENV !== "production") {
+const cookieParser = require("cookie-parser");
+const { v4: uuidv4 } = require("uuid");
+const session = require('express-session');
+
+// Import models
+
+const Appointment = require("./models/appointment");
+const News = require("./models/news");
+const Doctor = require("./models/Doctor");
+
+// Import routes
+
+const authRoutes = require("./routes/authRoutes");
+const appointmentRoutes = require("./routes/appointmentRoutes");
+const availabilityRoutes = require("./routes/availabilityRoutes");
+const doctorScheduleRoutes = require("./routes/doctorScheduleRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
+const newsRoutes = require("./routes/newsRoutes");
+const doctorRoutes = require("./routes/doctorsRoute");
+const doctorUpdateRoutes = require('./routes/doctorupdateRoutes');
+const receptionlistRoutes = require("./routes/receptionlistRoutes");
+// Import middleware
+const flashAndSession = require("./middleware/flashAndSession");
+
+// Load environment variables
+if (process.env.NODE_KEY !== "production") {
     require("dotenv").config();
 }
 
-// =====================
-// Initialize App
-// =====================
+// Initialize Express app
 const app = express();
 
-// =====================
-// View Engine & Static Files
-// =====================
+// Set up view engine and static files
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "/public")));
 
-// =====================
-// Global Middleware
-// =====================
+// Middleware setup
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 app.use(methodOverride("_method"));
+app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
+app.use(newsRoutes);
+flashAndSession(app); // Use flash and session middleware
 
-// =====================
-// Session Configuration (Production Ready)
-// =====================
-app.use(
-    session({
-        secret: process.env.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: false,
-        store: MongoStore.create({
-            mongoUrl: process.env.MONGO_URI,
-            ttl: 14 * 24 * 60 * 60, // 14 days
-        }),
-        cookie: {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            maxAge: 14 * 24 * 60 * 60 * 1000,
-        },
-    })
-);
+// MongoDB connection
+async function connectToDatabase() {
+    try {
+        await mongoose.connect(process.env.MONGO_URI);
+        console.log("MongoDB connected successfully");
+    } catch (err) {
+        console.error("MongoDB connection error:", err);
+        process.exit(1);
+    }
+}
+connectToDatabase();
 
-// =====================
-// Flash & Custom Middleware
-// =====================
-const flashAndSession = require("./middleware/flashAndSession");
-flashAndSession(app);
-
-// =====================
-// Assign User Token (Safe)
-// =====================
+// Assign a unique token to each user for session-based identification
 app.use((req, res, next) => {
     if (!req.cookies.userToken) {
         const userToken = uuidv4();
         res.cookie("userToken", userToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            maxAge: 30 * 24 * 60 * 60 * 1000,
+            secure: false,
+            maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
         });
         req.userToken = userToken;
     } else {
@@ -83,85 +80,133 @@ app.use((req, res, next) => {
     next();
 });
 
-// =====================
-// Models
-// =====================
-const Appointment = require("./models/appointment");
-const Doctor = require("./models/Doctor");
-const News = require("./models/news");
+// Configure session store with MongoDB Atlas
+// app.use(session({
+//     secret: process.env.SESSION_SECRET || 'defaultSecret', // Use a secure secret from environment variables
+//     resave: false,
+//     saveUninitialized: true,
+//     store: MongoStore.create({
+//       mongoUrl: process.env.ATLAS_URL, // MongoDB Atlas connection string
+//       ttl: 14 * 24 * 60 * 60, // Session expiration time in seconds (14 days)
+//       autoRemove: 'native', // Automatically remove expired sessions
+//     }),
+//     cookie: {
+//       secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+//       httpOnly: true, // Prevent client-side JavaScript from accessing the cookie
+//       maxAge: 14 * 24 * 60 * 60 * 1000, // Cookie expiration time in milliseconds (14 days)
+//     },
+//   }));
 
-// =====================
+// Middleware to clear appointments if the userToken cookie is missing
+app.use(async (req, res, next) => {
+    if (!req.cookies.userToken) {
+        try {
+            await mongoose.model("Appointment").deleteMany({});
+        } catch (error) {
+            console.error("Error clearing appointments:", error);
+        }
+    }
+    next();
+});
+
+
+
 // Routes
-// =====================
-const authRoutes = require("./routes/authRoutes");
-const appointmentRoutes = require("./routes/appointmentRoutes");
-const availabilityRoutes = require("./routes/availabilityRoutes");
-const doctorScheduleRoutes = require("./routes/doctorScheduleRoutes");
-const dashboardRoutes = require("./routes/dashboardRoutes");
-const newsRoutes = require("./routes/newsRoutes");
-const doctorRoutes = require("./routes/doctorsRoute");
-const doctorUpdateRoutes = require("./routes/doctorupdateRoutes");
-const receptionlistRoutes = require("./routes/receptionlistRoutes");
+app.get('/doctors', async (req, res) => {
+    const { department } = req.query;
+    try {
+        const query = department ? { department } : {};
+        const doctors = await Doctor.find(query);
 
-// =====================
-// Route Usage
-// =====================
-app.use(newsRoutes);
+        if (doctors.length === 0) {
+            if (req.accepts('json')) {
+                return res.status(404).json({ message: "No doctors found." });
+            }
+            return res.render('doctors', { doctors: [], message: "No doctors available." });
+        }
+
+        if (req.accepts('json')) {
+            return res.json(doctors);
+        }
+
+        res.render('doctors', { doctors });
+    } catch (error) {
+        console.error("Error fetching doctors:", error);
+        res.status(500).json({ error: "Server error", details: error.message });
+    }
+});
+
+
+// Use imported routes
+app.use(doctorScheduleRoutes);
 app.use(authRoutes);
 app.use(dashboardRoutes);
 app.use(availabilityRoutes);
-app.use(doctorScheduleRoutes);
+app.use(doctorRoutes);
 app.use(appointmentRoutes);
-app.use("/doctors", doctorRoutes);
-app.use("/", doctorUpdateRoutes);
+app.use('/', doctorUpdateRoutes);
+app.use('/doctors', doctorRoutes);
 app.use(receptionlistRoutes);
 
-// =====================
-// Public Routes
-// =====================
-app.get("/", async (req, res) => {
+
+// Public routes
+app.get('/', async (req, res) => {
     try {
-        const doctors = await Doctor.find({});
+        const doctors = await Doctor.find({}); // Fetch all doctors from the database
+        const newsList = await News.find({}); 
+        res.render('index', { doctors,  newsList}); // Pass doctors to the EJS file
+    } catch (error) {
+        
+        res.status(500).send('Internal Server Error');
+    }
+});
+app.get("/blogs", (req, res) => res.render("blogs.ejs"));
+app.get("/news", async (req, res) => {
+    try {
         const newsList = await News.find({});
-        res.render("index", { doctors, newsList });
-    } catch (err) {
+        res.render("news", { newsList });
+    } catch (error) {
+        console.error(error);
         res.status(500).send("Internal Server Error");
     }
 });
-
-app.get("/blogs", (req, res) => res.render("blogs"));
-app.get("/news", async (req, res) => {
-    const newsList = await News.find({});
-    res.render("news", { newsList });
+app.get("/aboutBBMH", (req, res) => res.render("about.ejs"));
+app.get("/doct", async (req, res) => {
+    try {
+        const doctors = await Doctor.find({});
+        res.render("doctors", { doctors });
+    } catch (error) {
+        console.error("Error fetching doctors:", error);
+        res.status(500).send("Internal Server Error");
+    }
 });
-app.get("/aboutBBMH", (req, res) => res.render("about"));
-app.get("/empanelments", (req, res) => res.render("empalenments"));
-app.get("/specialities", (req, res) => res.render("specialities"));
+app.get("/empanelments", (req, res) => res.render("empalenments.ejs"));
+app.get("/specialities", (req, res) => res.render("specialities.ejs"));
 
-// =====================
-// Error Handler
-// =====================
+// Speciality routes
+const specialities = [
+    "ent",
+    "Gynecology",
+    "Gastrology",
+    "Neurosurgery",
+    "JointReplacement",
+    "Orthopedic",
+    "Plasticsurgery",
+    "SportsInjuries",
+    "Urology",
+];
+specialities.forEach((route) => {
+    app.get(`/${route}`, (req, res) => res.render(`${route}.ejs`));
+});
+
+// Global error handler
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).send("Something went wrong!");
+    res.status(500).send("Something went wrong! Please try again later.");
 });
 
-// =====================
-// Database Connection & Server Start
-// =====================
-async function startServer() {
-    try {
-        await mongoose.connect(process.env.MONGO_URI);
-        console.log("✅ MongoDB connected");
-
-        const PORT = process.env.PORT ;
-        app.listen(PORT, () => {
-            console.log(`🚀 Server running on port ${PORT}`);
-        });
-    } catch (err) {
-        console.error("❌ MongoDB connection failed:", err);
-        process.exit(1);
-    }
-}
-
-startServer();
+// Start the server
+const port = process.env.PORT;
+app.listen(port, () => {
+    console.log(`App working at http://localhost:${port}`);
+});
