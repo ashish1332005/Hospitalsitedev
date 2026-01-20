@@ -258,7 +258,7 @@ body {
 }
 @media(max-width: 468px){
     .hamburger{
-        top:7vh;
+        top:3vh;
        float: right;
        right: 10px;
     }
